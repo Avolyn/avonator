@@ -7,5 +7,5 @@
   
 ## Avonator Guardrails
 - Licensed under Apache 2.0 
-- A double quarter pounder guardrail solution framework designed for [modular plug & play implementation](architecture.md)
+- A double quarter pounder guardrail solution framework designed for federated [modular plug & play implementation](architecture.md)
 - Built with Flower AI

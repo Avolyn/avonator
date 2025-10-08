@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Chatbot with Guardrails</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .chat-container {
+            height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #fafafa;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+            margin-left: 20%;
+        }
+        
+        .bot-message {
+            background-color: #e9ecef;
+            color: #333;
+            margin-right: 20%;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            margin-right: 20%;
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        #messageInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        #sendButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+        
+        #sendButton:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .config-container {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .validation-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            padding: 5px;
+            background-color: #f8f9fa;
+            border-radius: 3px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-healthy { background-color: #28a745; }
+        .status-unhealthy { background-color: #dc3545; }
+        
+        .health-status {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LLM Chatbot with Guardrails</h1>
+        
+        <div class="health-status" id="healthStatus">
+            <span class="status-indicator status-healthy"></span>
+            Checking service status...
+        </div>
+        
+        <div class="config-container">
+            <label for="guardrailConfig">Guardrail Configuration:</label>
+            <select id="guardrailConfig">
+                <option value="default">Default</option>
+                <option value="toxic_language_guard">Toxic Language Guard</option>
+                <option value="pii_redaction_guard">PII Redaction Guard</option>
+                <option value="content_moderation">Content Moderation</option>
+            </select>
+        </div>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="message bot-message">
+                Hello! I'm a chatbot with built-in guardrails. Try sending me messages and see how the guardrails work!
+                <div class="validation-info">
+                    Try these examples:
+                    <br>• "Hello, how are you?" (normal message)
+                    <br>• "This damn thing is broken!" (profanity filtering)
+                    <br>• "Contact me at john@example.com" (PII detection)
+                    <br>• "You're stupid!" (toxic language detection)
+                </div>
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <input type="text" id="messageInput" placeholder="Type your message here..." />
+            <button id="sendButton" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let isLoading = false;
+        
+        // Check health status on page load
+        window.onload = function() {
+            checkHealth();
+            loadGuardrailConfigs();
+        };
+        
+        async function checkHealth() {
+            try {
+                const response = await fetch('/api/v1/chat/health');
+                const data = await response.json();
+                
+                const healthStatus = document.getElementById('healthStatus');
+                const indicator = healthStatus.querySelector('.status-indicator');
+                
+                if (data.status === 'healthy') {
+                    indicator.className = 'status-indicator status-healthy';
+                    healthStatus.innerHTML = '<span class="status-indicator status-healthy"></span>All services healthy';
+                } else {
+                    indicator.className = 'status-indicator status-unhealthy';
+                    healthStatus.innerHTML = '<span class="status-indicator status-unhealthy"></span>Service degraded - Guardrails service unavailable';
+                }
+            } catch (error) {
+                const healthStatus = document.getElementById('healthStatus');
+                healthStatus.innerHTML = '<span class="status-indicator status-unhealthy"></span>Unable to check service status';
+            }
+        }
+        
+        async function loadGuardrailConfigs() {
+            try {
+                const response = await fetch('/api/v1/chat/config');
+                if (response.ok) {
+                    const data = await response.json();
+                    const select = document.getElementById('guardrailConfig');
+                    
+                    // Clear existing options
+                    select.innerHTML = '';
+                    
+                    // Add options from API
+                    for (const [name, config] of Object.entries(data.configs)) {
+                        const option = document.createElement('option');
+                        option.value = name;
+                        option.textContent = config.description || name;
+                        select.appendChild(option);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load guardrail configs:', error);
+            }
+        }
+        
+        function addMessage(content, isUser = false, isError = false, validationInfo = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            
+            let className = 'message ';
+            if (isError) {
+                className += 'error-message';
+            } else if (isUser) {
+                className += 'user-message';
+            } else {
+                className += 'bot-message';
+            }
+            
+            messageDiv.className = className;
+            messageDiv.innerHTML = content;
+            
+            if (validationInfo) {
+                const validationDiv = document.createElement('div');
+                validationDiv.className = 'validation-info';
+                validationDiv.innerHTML = validationInfo;
+                messageDiv.appendChild(validationDiv);
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function formatValidationInfo(validation) {
+            if (!validation || !validation.validations) return '';
+            
+            const results = validation.validations.map(v => 
+                `${v.validator_name}: ${v.status} (${v.message})`
+            ).join('<br>');
+            
+            return `Validation: ${validation.valid ? 'PASSED' : 'FAILED'}<br>${results}`;
+        }
+        
+        async function sendMessage() {
+            if (isLoading) return;
+            
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const guardrailConfig = document.getElementById('guardrailConfig').value;
+            
+            const message = messageInput.value.trim();
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, true);
+            
+            // Clear input and disable button
+            messageInput.value = '';
+            sendButton.disabled = true;
+            sendButton.textContent = 'Sending...';
+            isLoading = true;
+            
+            try {
+                const response = await fetch('/api/v1/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        guardrail_config: guardrailConfig,
+                        user_id: 'demo-user',
+                        session_id: 'demo-session'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Add bot response
+                    const inputValidation = formatValidationInfo(data.input_validation);
+                    const outputValidation = formatValidationInfo(data.output_validation);
+                    const validationInfo = `Input ${inputValidation}<br>Output ${outputValidation}`;
+                    
+                    addMessage(data.response, false, false, validationInfo);
+                } else {
+                    // Add error message
+                    addMessage(data.message || 'An error occurred', false, true);
+                }
+                
+            } catch (error) {
+                addMessage('Failed to send message. Please try again.', false, true);
+                console.error('Error:', error);
+            } finally {
+                // Re-enable button
+                sendButton.disabled = false;
+                sendButton.textContent = 'Send';
+                isLoading = false;
+                messageInput.focus();
+            }
+        }
+        
+        // Allow Enter key to send message
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !isLoading) {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
+

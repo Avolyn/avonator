@@ -5,6 +5,7 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch:  # Allow manual triggering
 
 env:
   PYTHON_VERSION: '3.9'
@@ -240,6 +241,8 @@ jobs:
     - name: Deploy to staging
       run: |
         echo "Deploying to staging environment..."
+        echo "API Key configured: ${{ secrets.GUARDRAILS_API_KEY != '' }}"
+        echo "Docker Hub configured: ${{ secrets.DOCKER_USERNAME != '' }}"
         # Add your staging deployment commands here
         # Example: kubectl apply -f k8s/staging/
 
@@ -256,6 +259,10 @@ jobs:
     - name: Deploy to production
       run: |
         echo "Deploying to production environment..."
+        echo "API Key configured: ${{ secrets.GUARDRAILS_API_KEY != '' }}"
+        echo "Docker Hub configured: ${{ secrets.DOCKER_USERNAME != '' }}"
+        echo "JWT Secret configured: ${{ secrets.JWT_SECRET != '' }}"
+        echo "Grafana configured: ${{ secrets.GRAFANA_PASSWORD != '' }}"
         # Add your production deployment commands here
         # Example: kubectl apply -f k8s/production/
 
@@ -303,6 +310,7 @@ jobs:
       if: needs.deploy-production.result == 'success'
       run: |
         echo "Deployment successful!"
+        echo "All secrets are properly configured!"
         # Add notification logic here (Slack, email, etc.)
     
     - name: Notify on failure

@@ -1,18 +1,20 @@
-# 🛡️ FastAPI Guardrails Service
+
+![Avonator](images/avonatormicro.png)
+# Avonator Guardrails Service
 
 A production-ready, AI-powered content validation service built with FastAPI, featuring NLP models for toxicity detection, PII identification, and content moderation.
 
-## ✨ Features
+## Features
 
-- **🤖 AI-Powered Validation**: Uses spaCy, Stanza, and HuggingFace models
-- **⚡ High Performance**: Async processing with Redis caching
-- **🔒 Enterprise Security**: API key authentication, rate limiting, input sanitization
-- **📊 Monitoring**: Prometheus metrics, structured logging, health checks
-- **🐳 Docker Ready**: Multi-stage builds, Docker Compose, Kubernetes deployment
-- **🔄 CI/CD**: Automated testing, security scanning, deployment pipeline
-- **📈 Scalable**: Horizontal scaling, load balancing, auto-scaling
+- **🍔 AI-Powered Validation**: Uses spaCy, Stanza, and HuggingFace models
+- **🍔 High Performance**: Async processing with Redis caching
+- **🍔 Enterprise Security**: API key authentication, rate limiting, input sanitization
+- **🍔 Monitoring**: Prometheus metrics, structured logging, health checks
+- **🍔 Docker Ready**: Multi-stage builds, Docker Compose, Kubernetes deployment
+- **🍔 CI/CD**: Automated testing, security scanning, deployment pipeline
+- **🍔 Scalable**: Horizontal scaling, load balancing, auto-scaling
 
-## 🚀 Quick Start
+## Quick Start
 
 ### **Option 1: Docker (Recommended)**
 ```bash
@@ -76,7 +78,7 @@ GET /v1/guardrails/configs
 Authorization: Bearer your-api-key
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -97,7 +99,7 @@ Authorization: Bearer your-api-key
 └─────────────────┘    └─────────────────┘
 ```
 
-## 🐳 Docker Deployment
+##  Docker Deployment
 
 ### **Development**
 ```bash
@@ -114,7 +116,7 @@ docker-compose -f docker-compose.prod.yml up -d
 kubectl apply -f kubernetes_deployment.yaml
 ```
 
-## 🔧 Configuration
+##  Configuration
 
 ### **Environment Variables**
 ```bash
@@ -138,7 +140,7 @@ RATE_LIMIT_WINDOW=60
 - **`permissive`**: Minimal filtering
 - **`content_moderation`**: Focus on content quality
 
-## 🧪 Testing
+##  Testing
 
 ### **Run All Tests**
 ```bash
@@ -165,7 +167,7 @@ locust -f tests/load_test.py --host=http://localhost:8000
 pytest tests/ -v --cov=enhanced_guardrails --cov-report=html
 ```
 
-## 📊 Monitoring
+## Monitoring
 
 ### **Health Checks**
 - **Application**: `http://localhost:8000/v1/guardrails/health`
@@ -183,15 +185,15 @@ pytest tests/ -v --cov=enhanced_guardrails --cov-report=html
 - `guardrails_cache_hits_total` - Cache performance
 - `guardrails_model_inference_duration_seconds` - Model performance
 
-## 🔄 CI/CD Pipeline
+## CI/CD Pipeline
 
 The repository includes a complete CI/CD pipeline with:
 
-- **✅ Automated Testing**: Unit, integration, performance tests
-- **🔒 Security Scanning**: Trivy, Bandit, Safety checks
-- **🐳 Docker Builds**: Multi-stage builds with security scanning
-- **📊 Code Quality**: Black, isort, Flake8, MyPy
-- **🚀 Deployment**: Automated staging and production deployment
+- **🍔 Automated Testing**: Unit, integration, performance tests
+- **🍔 Security Scanning**: Trivy, Bandit, Safety checks
+- **🍔 Docker Builds**: Multi-stage builds with security scanning
+- **🍔 Code Quality**: Black, isort, Flake8, MyPy
+- **🍔 Deployment**: Automated staging and production deployment
 
 ### **GitHub Actions**
 - Runs on every push and pull request
@@ -199,7 +201,7 @@ The repository includes a complete CI/CD pipeline with:
 - Builds and tests Docker images
 - Verifies GitHub secrets configuration
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 avonator/
@@ -228,7 +230,7 @@ avonator/
     └── ultra-simple.yml           # Ultra-simple tests
 ```
 
-## 🛠️ Development
+## Development
 
 ### **Setup Development Environment**
 ```bash
@@ -264,14 +266,14 @@ bandit -r .
 safety check
 ```
 
-## 📚 Documentation
+## Documentation
 
 - **[Docker & CI/CD Guide](DOCKER_CI_CD_GUIDE.md)** - Complete deployment guide
 - **[GitHub Setup Guide](GITHUB_SETUP_GUIDE.md)** - Repository configuration
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
 - **[Improvements Summary](IMPROVEMENTS_SUMMARY.md)** - Feature overview
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -279,11 +281,11 @@ safety check
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/Avolyn/avonator/issues)
 - **Documentation**: Check the guides in the repository
@@ -291,4 +293,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ using FastAPI, Docker, and modern DevOps practices.**
+**Built with 🍔 using FastAPI, Docker, and modern DevOps practices.**

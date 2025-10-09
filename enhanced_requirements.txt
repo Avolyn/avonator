@@ -13,10 +13,9 @@ pydantic-settings==2.1.0
 # Security and authentication
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-python-multipart==0.0.6
 
 # CORS and middleware
-python-cors==1.7.0
+fastapi-cors==0.0.6
 
 # Caching and performance
 redis==5.0.1
@@ -70,7 +69,8 @@ asyncpg==0.29.0
 pytest==7.4.3
 pytest-asyncio==0.21.1
 pytest-cov==4.1.0
-httpx==0.25.2
+pytest-xdist==3.5.0
+pytest-benchmark==4.0.0
 
 # Development dependencies
 black==23.11.0
@@ -79,8 +79,5 @@ flake8==6.1.0
 mypy==1.7.1
 pre-commit==3.6.0
 
-# Optional: For advanced NLP features
-# Uncomment if you need these specific models
-# en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.0/en_core_web_sm-3.7.0-py3-none-any.whl
-# en-core-web-md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.7.0/en_core_web_md-3.7.0-py3-none-any.whl
-# en-core-web-lg @ https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.0/en_core_web_lg-3.7.0-py3-none-any.whl
+# Load testing
+locust==2.17.0

@@ -41,7 +41,7 @@ python -m spacy download en_core_web_sm
 uvicorn enhanced_guardrails:app --host 0.0.0.0 --port 8000
 ```
 
-## 📋 API Endpoints
+## API Endpoints
 
 ### **Health Check**
 ```bash

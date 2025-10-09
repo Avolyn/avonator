@@ -1,0 +1,17 @@
+name: Ultra Simple Test
+
+on: 
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Hello World
+      run: |
+        echo "🚀 Hello World! This should definitely work!"
+        echo "✅ If you see this message, GitHub Actions is working!"
+        echo "📅 Current time: $(date)"
+        echo "🎉 Success!"

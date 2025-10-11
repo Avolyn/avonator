@@ -269,8 +269,6 @@ safety check
 ## Documentation
 
 - **[Docker & CI/CD Guide](DOCKER_CI_CD_GUIDE.md)** - Complete deployment guide
-- **[GitHub Setup Guide](GITHUB_SETUP_GUIDE.md)** - Repository configuration
-- **[Troubleshooting](TROUBLESHOOTING.md)** - Common issues and solutions
 - **[Improvements Summary](IMPROVEMENTS_SUMMARY.md)** - updated as of 10/9/25 
 
 ## Contributing

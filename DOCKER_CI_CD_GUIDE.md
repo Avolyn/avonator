@@ -1,8 +1,8 @@
-# 🐳 Docker & CI/CD Setup Guide
+# Docker & CI/CD Setup Guide
 
 Complete guide for running the FastAPI Guardrails Service with Docker and automated CI/CD pipelines.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. **Complete Setup (Recommended)**
 ```bash
@@ -95,7 +95,7 @@ docker-compose down
 docker-compose -f docker-compose.prod.yml down
 ```
 
-## 🧪 Testing Suite
+## Testing Suite
 
 ### **Test Structure**
 ```
@@ -134,7 +134,7 @@ locust -f tests/load_test.py --host=http://localhost:8000 --users=50 --spawn-rat
 - `@pytest.mark.performance` - Performance tests
 - `@pytest.mark.redis` - Tests requiring Redis
 
-## 🔄 CI/CD Pipeline
+## CI/CD Pipeline
 
 ### **GitHub Actions Workflow** (`.github/workflows/ci-cd.yml`)
 
@@ -217,7 +217,7 @@ docker run --rm guardrails-api:test
 locust -f tests/load_test.py --host=http://localhost:8000 --users=100 --spawn-rate=10 --run-time=300s --headless
 ```
 
-## 📊 Monitoring & Observability
+## Monitoring & Observability
 
 ### **Prometheus Metrics**
 - Request duration and count
@@ -244,7 +244,7 @@ locust -f tests/load_test.py --host=http://localhost:8000 --users=100 --spawn-ra
 - Docker health checks
 - Kubernetes liveness/readiness probes
 
-## 🚀 Deployment Options
+## Deployment Options
 
 ### **1. Docker Compose (Recommended for Development)**
 ```bash
@@ -292,7 +292,7 @@ kubectl get services -n guardrails
 - `.env.prod` - Production configuration
 - `env.example` - Template file
 
-## 🛠️ Development Workflow
+## Development Workflow
 
 ### **1. Local Development**
 ```bash
@@ -336,7 +336,7 @@ bandit -r .
 safety check
 ```
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### **Common Issues**
 
@@ -392,7 +392,7 @@ docker-compose down -v
 docker system prune -f
 ```
 
-## 📈 Performance Optimization
+## Performance Optimization
 
 ### **Docker Optimizations**
 - Multi-stage builds for smaller images
@@ -412,9 +412,7 @@ docker system prune -f
 - Log aggregation and analysis
 - Alerting on performance thresholds
 
-## 🎯 Next Steps
 
-1. **Set up your CI/CD pipeline** with the provided GitHub Actions workflow
 2. **Configure monitoring** with Prometheus and Grafana
 3. **Deploy to your preferred platform** (Kubernetes, cloud, etc.)
 4. **Set up alerting** for production monitoring

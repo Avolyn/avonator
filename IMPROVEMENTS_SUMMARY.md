@@ -244,7 +244,7 @@ The enhanced service provides comprehensive metrics accessible at `/metrics`:
 - **System Metrics**: Memory, CPU, connections
 - **Business Metrics**: Toxicity detection, PII detection rates
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 ```bash

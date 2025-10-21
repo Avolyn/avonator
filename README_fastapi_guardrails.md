@@ -2,7 +2,7 @@
 
 A streamlined, production-ready guardrail service built with FastAPI and powered by advanced NLP models. This service provides content validation, toxicity detection, sentiment analysis, and PII detection using spaCy, Stanza, and HuggingFace transformers instead of regex patterns.
 
-## 🚀 Features
+## Features
 
 - **FastAPI-based**: Modern, fast, and automatically documented API
 - **NLP-powered**: Uses spaCy, Stanza, and HuggingFace transformers for intelligent content analysis
@@ -13,7 +13,7 @@ A streamlined, production-ready guardrail service built with FastAPI and powered
 - **Pydantic Validation**: Type-safe request/response models
 - **Health Monitoring**: Built-in health checks and model status monitoring
 
-## 🏗️ Architecture
+## Architecture
 
 ### Core Components
 
@@ -29,7 +29,7 @@ A streamlined, production-ready guardrail service built with FastAPI and powered
 - **Sentiment Analysis**: Analyzes text sentiment using transformer models
 - **PII Detection**: Identifies and redacts personally identifiable information using spaCy NER
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
@@ -102,7 +102,7 @@ The service comes with pre-configured guardrails:
 - **`content_moderation`**: Comprehensive content moderation
 - **`customer_service`**: Optimized for customer service applications
 
-## 📚 API Documentation
+## API Documentation
 
 ### Interactive Documentation
 
@@ -178,7 +178,7 @@ Check service health and model status.
 
 Get available guardrail configurations (requires API key).
 
-## 🚀 Usage Examples
+## Usage Examples
 
 ### Python Client
 
@@ -241,7 +241,7 @@ const result = await response.json();
 console.log('Valid:', result.valid);
 ```
 
-## 🔒 Security Features
+## Security Features
 
 - **API Key Authentication**: Secure endpoint access
 - **CORS Support**: Configurable cross-origin resource sharing
@@ -250,7 +250,7 @@ console.log('Valid:', result.valid);
 - **Trusted Hosts**: Host validation middleware
 - **Error Handling**: Secure error responses without information leakage
 
-## 🧪 Testing
+## Testing
 
 Run the example usage script:
 
@@ -260,7 +260,7 @@ python example_usage.py
 
 This will demonstrate various validation scenarios and guardrail configurations.
 
-## 📊 Monitoring and Logging
+## Monitoring and Logging
 
 The service includes comprehensive logging and monitoring:
 
@@ -269,7 +269,7 @@ The service includes comprehensive logging and monitoring:
 - **Performance Metrics**: Execution time tracking
 - **Error Tracking**: Detailed error logging and reporting
 
-## 🔧 Customization
+## Customization
 
 ### Adding Custom Validators
 
@@ -351,7 +351,7 @@ EXPOSE 8000
 CMD ["uvicorn", "fastapi_guardrails:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -359,11 +359,11 @@ CMD ["uvicorn", "fastapi_guardrails:app", "--host", "0.0.0.0", "--port", "8000"]
 4. Add tests
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🆘 Support
+## Support
 
 For issues and questions:
 
@@ -372,7 +372,7 @@ For issues and questions:
 3. Check the logs for error details
 4. Open an issue on GitHub
 
-## 🔄 Migration from Flask Version
+## Migration from Flask Version
 
 This FastAPI version provides several improvements over the original Flask implementation:
 

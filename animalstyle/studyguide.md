@@ -101,9 +101,9 @@ def _parse_result(self, result: str) -> Tuple[bool, List[str], float]:
 - Fallback Handling: graceful degradation for unclear results
 
 ## Chapter 2: FastAPI Web Interface ([api.py](animalstyle/api.py))
+**Purpose:** Provides a clean REST API wrapper around the core service, making it accessible to any programming language or framework.
 
 ### 2.1 - Application Architecture
-**Purpose:** Provides a clean REST API wrapper around the core service, making it accessible to any programming language or framework.
 
 ```bash
 app = FastAPI(

@@ -218,10 +218,10 @@ services:
 ### Custom Model Loading
 
 ```python
-from llamaguard_service import LlamaGuardService
+from animalstyleservice import AnimalStyleService
 
 # Custom configuration
-service = LlamaGuardService(
+service = AnimalStyleService(
     model_name="meta-llama/LlamaGuard-7b",
     device="cuda"
 )
@@ -427,6 +427,7 @@ This project is licensed under the MIT License.
 - **Issues**: GitHub Issues
 - **Documentation**: This README
 - **Examples**: See `client_example.py`
+
 
 
 

@@ -1,4 +1,4 @@
-# Minimal LlamaGuard-7b Dockerfile
+# Avonator Animal Style Dockerfile
 FROM python:3.11-slim
 
 # Set working directory
@@ -32,3 +32,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
 
 # Run the application
 CMD ["python", "api.py"]
+

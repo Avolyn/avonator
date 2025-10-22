@@ -34,7 +34,7 @@ class ValidationResponse(BaseModel):
     model_info: Dict[str, Any]
 
 
-class AvonatorAnimalStyle:
+class AvonatorAnimalStyleService:
     """Minimal LlamaGuard-7b service for content validation"""
     
     def __init__(self, model_name: str = "meta-llama/LlamaGuard-7b", device: str = "auto"):
@@ -266,4 +266,5 @@ async def validate_batch(texts: List[str], contexts: Optional[List[str]] = None)
                 for text, context in zip(texts, contexts)]
     
     return await service.validate_batch(requests)
+
 

@@ -12,7 +12,7 @@ A lightweight, standalone content safety validation service using LlamaGuard-7b.
 ```bash
 # Clone and run
 git clone <your-repo>
-cd llamaguard-minimal
+cd llamaguard-animalstyle
 docker-compose up -d
 
 # Test the service
@@ -427,6 +427,7 @@ This project is licensed under the MIT License.
 - **Issues**: GitHub Issues
 - **Documentation**: This README
 - **Examples**: See `client_example.py`
+
 
 
 

@@ -299,7 +299,7 @@ accelerate==0.25.0        # Model acceleration
 sentencepiece==0.1.99    # Tokenizer support
 protobuf==4.25.1          # Protocol buffers
 ```
-### Dependency Analysis:
+### 4.1 - Dependency Analysis:
 #### Core Framework Dependencies:
 - FastAPI: modern, fast web framework with automatic API documentation
 - Unvicorn: high-performance ASGI server with WebSocket support
@@ -338,4 +338,103 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 ```
+
+### 5.1 - System Dependencies Explained:
+- gcc/g++: required for compiling PyTorch and transformers
+- git: needed for downloading models from HuggingFace (or whever you're getting your model)
+- curl: used for health checks and API testing
+
+```bash
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Set environment variables
+ENV PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+ENV TOKENIZERS_PARALLELISM=false
+```
+### 5.2 - Environmental Variables:
+- PYTORCH_CUDA_ALLOC_CONF: prevents CUDA out-of-memory errors
+- TOKENIZERS_PARALLELISM: disables parallel tokenization to avoid warnings
+
+```bash
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+```
+
+### 5.3 - Health Check Strategy:
+- 30s intervals: regular health monitoring (refers to a rate limit of 30 requests per minute RPM)
+  - separate from model's actual performance, this is to manage server load on the API call
+- 60s start period: allows time for model loading
+- 3 retries: prevents false negatives from temporary issues
+- curl command: simple HTTP health check (confirms AnimalStyleService is operational and responsive via simple ping)
+
+## Chapter 6: Orchestration Configuration (docker-compose.yml)
+**Purpose:** Defines the complete deployment stack with proper resource allocation and volume management
+
+```bash
+version: '3.8'
+
+services:
+  llamaguard:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+      - TOKENIZERS_PARALLELISM=false
+    volumes:
+      - model_cache:/app/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+```
+
+### 6.1 - Configuration Analysis:
+
+#### Port Mapping: 
+- 8000:8000: exposes the service on the default port
+- Standard HTTP: easy integration with load balancers
+
+#### Environmental Variables: 
+- PyTorch Settings: optimized for model inference
+- Tokenizer Settings: prevents parallel processing warnings
+
+#### Volume Management: 
+
+```bash
+volumes:
+  model_cache:
+```
+- Model Caching: persists downloaded models between container restarts
+- Performance: avoids re-downloading large models
+- Cost Efficiency: reduces bandwidth usage
+
+#### GPU Resource Allocation: 
+
+```bash
+deploy:
+  resources:
+    reservations:
+      devices:
+        - driver: nvidia
+          count: 1
+          capabilities: [gpu]
+```
+- GPU Reservation: ensures GPU availability
+- NVIDIA Driver: requires NVIDIA Docker runtime
+- Single GPU: optimized for single-GPU inference
+
+
+## Chapter 7: Comprehensive Testing Suite (test_integration.py)
+**Purpose:** Validates the entire system functionality with realistic test scenarios
+
 

@@ -3,8 +3,8 @@
 
 # Avonator Animal Style featuring LlamaGuard-7b
 
- Avonator but using LlamaGuard-7b. Perfect for integrating into existing GenAI agent solutions.
-
+ Avonator but using LlamaGuard-7b. 
+ 
 ## Quick Start
 
 ### Option 1: Docker (Recommended)
@@ -427,6 +427,7 @@ This project is licensed under the MIT License.
 - **Issues**: GitHub Issues
 - **Documentation**: This README
 - **Examples**: See `client_example.py`
+
 
 
 

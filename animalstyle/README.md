@@ -2,7 +2,7 @@
 
 A lightweight, standalone content safety validation service using LlamaGuard-7b. Perfect for integrating into existing GenAI agent solutions.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Option 1: Docker (Recommended)
 
@@ -26,7 +26,7 @@ pip install -r requirements.txt
 python api.py
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Health Check
 ```bash
@@ -55,7 +55,7 @@ Content-Type: application/json
 }
 ```
 
-## 🔌 Integration Examples
+## Integration Examples
 
 ### Python Integration
 
@@ -110,7 +110,7 @@ curl -X POST "http://localhost:8000/validate/batch" \
   -d '{"texts": ["Text 1", "Text 2"]}'
 ```
 
-## 🏗️ Integration Patterns
+## Integration Patterns
 
 ### 1. Pre-Processing Validation
 Validate user input before sending to your GenAI model:
@@ -171,7 +171,7 @@ async def handle_conversation_turn(user_input: str):
     return {"message": ai_output}
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -210,7 +210,7 @@ services:
               capabilities: [gpu]
 ```
 
-## 🔧 Customization
+## Customization
 
 ### Custom Model Loading
 
@@ -245,7 +245,7 @@ async def custom_validate(text: str) -> bool:
     return result["is_safe"]
 ```
 
-## 📊 Response Format
+## Response Format
 
 ### Single Validation Response
 
@@ -284,7 +284,7 @@ async def custom_validate(text: str) -> bool:
 ]
 ```
 
-## 🚨 Error Handling
+## Error Handling
 
 ### Common Error Scenarios
 
@@ -317,7 +317,7 @@ async def custom_validate(text: str) -> bool:
 }
 ```
 
-## 🔍 Monitoring
+## Monitoring
 
 ### Health Check
 
@@ -344,7 +344,7 @@ docker-compose logs -f llamaguard
 docker-compose logs llamaguard | grep ERROR
 ```
 
-## 🚀 Production Deployment
+## Production Deployment
 
 ### Kubernetes Deployment
 
@@ -391,7 +391,7 @@ spec:
   type: LoadBalancer
 ```
 
-## 📈 Performance Tips
+## Performance Tips
 
 1. **Use GPU**: Enable CUDA for faster inference
 2. **Model Caching**: Cache models to avoid reloading
@@ -399,7 +399,7 @@ spec:
 4. **Connection Pooling**: Reuse HTTP connections
 5. **Async Processing**: Use async/await for better performance
 
-## 🔒 Security Considerations
+## Security Considerations
 
 1. **Network Security**: Use HTTPS in production
 2. **Authentication**: Add API keys if needed
@@ -407,11 +407,11 @@ spec:
 4. **Input Validation**: Validate input before processing
 5. **Error Handling**: Don't expose sensitive error details
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License.
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -419,8 +419,9 @@ This project is licensed under the MIT License.
 4. Add tests
 5. Submit a pull request
 
-## 📞 Support
+## Support
 
 - **Issues**: GitHub Issues
 - **Documentation**: This README
 - **Examples**: See `client_example.py`
+

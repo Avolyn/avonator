@@ -4,6 +4,8 @@
 # Avonator Animal Style featuring LlamaGuard-7b
 
  Avonator but using LlamaGuard-7b. 
+
+ For an overview of the design, health checks, architecture, dependencies and rationale you can view a deeper explanation in the [Study Guide](animalstyle/studyguide.md).
  
 ## Quick Start
 
@@ -427,6 +429,7 @@ This project is licensed under the MIT License.
 - **Issues**: GitHub Issues
 - **Documentation**: This README
 - **Examples**: See `client_example.py`
+
 
 
 

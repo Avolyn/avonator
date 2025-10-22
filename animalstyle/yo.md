@@ -1,1 +1,2 @@
-## Avonator but animal style
+## Fake Merch
+![Animal Style Tee](images/animalstyletee.png)

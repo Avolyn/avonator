@@ -34,7 +34,7 @@ class ValidationResponse(BaseModel):
     model_info: Dict[str, Any]
 
 
-class AvonatorAnimalStyleService:
+class AnimalStyleService:
     """Minimal LlamaGuard-7b service for content validation"""
     
     def __init__(self, model_name: str = "meta-llama/LlamaGuard-7b", device: str = "auto"):
@@ -240,24 +240,24 @@ class AvonatorAnimalStyleService:
 _service_instance = None
 
 
-async def get_service() -> AvonatorAnimalStyleService:
+async def get_service() -> AnimalStyleService:
     """Get or create service instance"""
     global _service_instance
     if _service_instance is None:
-        _service_instance = AvonatorAnimalStyle()
+        _service_instance = AnimalStyle()
     return _service_instance
 
 
 async def validate_text(text: str, context: Optional[str] = None) -> ValidationResponse:
     """Convenience function for text validation"""
-    service = await get_service()
+    service = await get_service() # AnimalStyle
     request = ValidationRequest(text=text, context=context)
     return await service.validate(request)
 
 
 async def validate_batch(texts: List[str], contexts: Optional[List[str]] = None) -> List[ValidationResponse]:
     """Convenience function for batch validation"""
-    service = await get_service()
+    service = await get_service() # AnimalStyle
     
     if contexts is None:
         contexts = [None] * len(texts)
@@ -266,6 +266,7 @@ async def validate_batch(texts: List[str], contexts: Optional[List[str]] = None)
                 for text, context in zip(texts, contexts)]
     
     return await service.validate_batch(requests)
+
 
 
 

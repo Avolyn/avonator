@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  llamaguard:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+      - TOKENIZERS_PARALLELISM=false
+    volumes:
+      - model_cache:/app/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  model_cache:

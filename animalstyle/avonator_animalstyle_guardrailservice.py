@@ -240,11 +240,11 @@ class AvonatorAnimalStyleService:
 _service_instance = None
 
 
-async def get_service() -> LlamaGuardService:
+async def get_service() -> AvonatorAnimalStyleService:
     """Get or create service instance"""
     global _service_instance
     if _service_instance is None:
-        _service_instance = LlamaGuardService()
+        _service_instance = AvonatorAnimalStyle()
     return _service_instance
 
 
@@ -266,5 +266,6 @@ async def validate_batch(texts: List[str], contexts: Optional[List[str]] = None)
                 for text, context in zip(texts, contexts)]
     
     return await service.validate_batch(requests)
+
 
 

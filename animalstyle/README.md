@@ -1,4 +1,8 @@
-# Minimal LlamaGuard-7b Service
+
+![Avonator Animal Style](images/avonator_animalstyle.png)
+
+# Avonator Animal Style
+## w/LlamaGuard-7b 
 
 A lightweight, standalone content safety validation service using LlamaGuard-7b. Perfect for integrating into existing GenAI agent solutions.
 
@@ -424,4 +428,5 @@ This project is licensed under the MIT License.
 - **Issues**: GitHub Issues
 - **Documentation**: This README
 - **Examples**: See `client_example.py`
+
 

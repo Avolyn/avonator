@@ -5,6 +5,7 @@ An overview of each modification from the Avonator original including LlamaGuard
 ![Animal Style Table of Contents](images/animalstylestudycontents.png)
 
 ## Chapter 1: Core Service Engine
+**Purpose:** The heart of the system - contains the actual LlamaGuard-7b model integration and inference logic.
 
 ### 1.1 - Service Class Architecture
 
@@ -99,7 +100,7 @@ def _parse_result(self, result: str) -> Tuple[bool, List[str], float]:
 - Detailed Violations: extracts specific violation categories
 - Fallback Handling: graceful degradation for unclear results
 
-## Chapter 2: FastAPI Web Interface (api.py)
+## Chapter 2: FastAPI Web Interface ([api.py](animalstyle/api.py))
 
 ### 2.1 - Application Architecture
 **Purpose:** Provides a clean REST API wrapper around the core service, making it accessible to any programming language or framework.
@@ -200,7 +201,7 @@ async def validate_single(request: TextValidationRequest):
 - Client-Friendly: clear error messages for API consumers
 - Non-Blocking: errors don't crash the service
 
-## Chapter 3: Integration Library (client_example.py)
+## Chapter 3: Integration Library ([client_example.py](animalstyle/client_example.py))
 **Purpose:** Provides ready-to-use client code and integration patterns for existing Gen AI solutions.
 
 ### 3.1 - Client Architecture
@@ -285,7 +286,7 @@ async def validate_conversation_turn(user_input: str, ai_output: str) -> Dict[st
 - Detailed Results: provides granular safety information
 - Efficient Resource Usage: single client for multiple validations
 
-## Chapter 4: Dependency Management (requirements.txt)
+## Chapter 4: Dependency Management ([requirements.txt](animalstyle/requirements.txt))
 **Purpose:** Defines the minimal set of dependencies needed for the LlamaGuard-7b service.
 
 ```bash
@@ -320,7 +321,7 @@ protobuf==4.25.1          # Protocol buffers
 - Security: known stable versions with security patches
 - Size: minimal dependencies reduce Docker image size
 
-## Chapter 5: Container Configuration (Dockerfile)
+## Chapter 5: Container Configuration ([Dockerfile](animalstyle/Dockerfile))
 **Purpose:** Creates a minimal, production-ready Docker container for the LlamaGuard-7b service.
 
 ```bash
@@ -373,7 +374,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 \
 - 3 retries: prevents false negatives from temporary issues
 - curl command: simple HTTP health check (confirms AnimalStyleService is operational and responsive via simple ping)
 
-## Chapter 6: Orchestration Configuration (docker-compose.yml)
+## Chapter 6: Orchestration Configuration ([docker-compose.yml](animalstyle/docker-compose.yml))
 **Purpose:** Defines the complete deployment stack with proper resource allocation and volume management
 
 ```bash
@@ -434,7 +435,132 @@ deploy:
 - Single GPU: optimized for single-GPU inference
 
 
-## Chapter 7: Comprehensive Testing Suite (test_integration.py)
+## Chapter 7: Comprehensive Testing Suite ([test_integration.py](animalstyle/test_integration.py))
 **Purpose:** Validates the entire system functionality with realistic test scenarios
 
+### 7.1 - Test Architecture
 
+```bash
+async def test_service():
+    """Test the LlamaGuard-7b service"""
+    base_url = "http://localhost:8000"
+    
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        # Test health check
+        health_response = await client.get(f"{base_url}/health")
+        health_data = health_response.json()
+```
+
+#### Testing Strategy:
+- HTTP Client: tests actual API endpoints
+- Async Operations: validates async functionality
+- Timeout Management: prevents hanging tests
+- Real Scenarios: tests with actual content
+
+### 7.2 - Test Design
+
+```bash
+test_cases = [
+    {
+        "text": "Hello, how are you today?",
+        "context": "user_input",
+        "expected_safe": True
+    },
+    {
+        "text": "This is a test of potentially harmful content.",
+        "context": "user_input", 
+        "expected_safe": None
+    },
+    {
+        "text": "I hope you have a wonderful day!",
+        "context": "ai_output",
+        "expected_safe": True
+    }
+]
+```
+
+#### Test Case Categories:
+- Safe Content: validates positive cases
+- Unsafe Content: tests safety detection
+- Context Awareness: tests different input contexts
+- Edge Cases: handles ambiguous content
+
+### 7.3 - Batch Testing
+
+```bash
+# Test batch validation
+batch_texts = [
+    "This is a safe message for testing.",
+    "Another safe message for batch processing.",
+    "This might be problematic content for testing."
+]
+
+batch_response = await client.post(
+    f"{base_url}/validate/batch",
+    json={"texts": batch_texts}
+)
+```
+
+#### Batch Testing Benefits:
+- Performance Validation: tests bulk processing
+- Resource Management: validates memory usage
+- Error Handling: tests partial failtures
+- Scalability: validates concurrent processing
+
+## Chapter 8: Deployment Automation
+**Purpose:** Provides a one-command deployment solution with automatic environment detection.
+
+```bash
+#!/bin/bash
+# Quick start script for Avonator Animal Style
+
+echo "Starting Avonator Animal Style"
+echo "========================================"
+
+# Check if Docker is available
+if command -v docker &> /dev/null; then
+    echo "Using Docker deployment..."
+    
+    # Build and run with Docker Compose
+    docker-compose up --build -d
+    
+    echo "Waiting for service to start..."
+    sleep 30
+    
+    # Test the service
+    echo "Testing service..."
+    python test_integration.py
+```
+#### Deployment Strategy:
+- Environmental Detection: automatically chooses docker or python
+- Build Process: ensures latest code is deployed
+- Health Monitoring: waits for service to be ready
+- Automated Testing: validates deployment success
+
+### 8.1 - FallbackStrategy
+
+```bash
+else
+    echo "🐍 Using Python deployment..."
+    
+    # Check if Python is available
+    if command -v python3 &> /dev/null; then
+        echo "Installing dependencies..."
+        pip install -r requirements.txt
+        
+        echo "Starting service..."
+        python api.py
+    else
+        echo "❌ Python3 not found. Please install Python 3.11+"
+        exit 1
+    fi
+fi
+```
+#### Falback Benefits:
+- Docker First: prefers containerized deployment
+- Python Fallback: works without docker
+- Dependency Management: automatically installs requirements
+- Error Handling: clear error messages for missing dependencies
+
+## Chapter 9: Documentation Overview ([README.md](animalstyle/README.md))
+**Purpose:** Provides complete documentation for integration, deployment, and usage.
